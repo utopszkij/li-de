@@ -1,0 +1,5 @@
+/* valasztoimozgalom.hu spec változat */
+.body {background-color:#d0d0d0; font-size:14px;}
+.page {width:80%; margin:10px 9% 10px 9%; padding:10px; background-color:white;}
+#banner {background-color:#33AC4B; width:100%; height:100px; color:white;}
+#banner a, #banner a:visited,  #banner a:active {color:white; text-decoration:none} 

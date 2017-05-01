@@ -1,7 +1,7 @@
 <?php 
 /**
-* @version		$Id:Model.php  1 2014-04-04Z FT $
-* @package		Temakorok
+* @version		$Id:Model.php  1 2014-05-12Z FT $
+* @package		Kepviselok
 * @subpackage 	Models
 * @copyright	Copyright (C) 2014, Fogler Tibor. All rights reserved.
 * @license #GNU/GPL
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  
 jimport( 'joomla.application.component.model' ); 
 
-class TemakorokModel  extends JModelLegacy { 
+class KepviselokModel  extends JModelLegacy { 
 
   
 	/**

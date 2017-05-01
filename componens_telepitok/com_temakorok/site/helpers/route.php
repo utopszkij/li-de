@@ -1,7 +1,7 @@
 <?php
 /**
  * @version		$Id: route.php 125 2012-10-09 11:09:48Z michel $
- * @package		Temakorok
+ * @package		Kepviselok
  * @subpackage	Helpers
  * @copyright	Copyright (C) 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU/GPL
@@ -15,28 +15,28 @@ jimport('joomla.application.component.helper');
 
 jimport('joomla.application.categories');
 /**
- * Temakorok Component Route Helper
+ * Kepviselok Component Route Helper
  *
  * @static
- * @package		Temakorok
+ * @package		Kepviselok
  * @subpackage	Helpers
 
  */
-abstract class TemakorokHelperRoute
+abstract class KepviselokHelperRoute
 {
 	protected static $lookup;
 	/**
-	 * @param	int	The route of the temakorok
+	 * @param	int	The route of the kepviselok
 	 */
-	public static function getTemakorokRoute($id, $catid)
+	public static function getKepviselokRoute($id, $catid)
 	{
 		$needles = array(
-			'temakorok'  => array((int) $id)
+			'kepviselok'  => array((int) $id)
 		);
 		//Create the link
-		$link = 'index.php?option=com_temakorok&view=temakorok&id='. $id;
+		$link = 'index.php?option=com_kepviselok&view=kepviselok&id='. $id;
 		if ($catid > 1) {
-			$categories = JCategories::getInstance('Temakorok');
+			$categories = JCategories::getInstance('Kepviselok');
 			$category = $categories->get($catid);
 			if ($category) {
 				$needles['category'] = array_reverse($category->getPath());
@@ -45,7 +45,7 @@ abstract class TemakorokHelperRoute
 			}
 		}
 
-		if ($item = TemakorokHelperRoute::_findItem($needles)) {
+		if ($item = KepviselokHelperRoute::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
 		};
 
@@ -64,9 +64,9 @@ abstract class TemakorokHelperRoute
 		else
 		{
 			$id = (int) $catid;
-		    $options['extension'] = $app->getUserStateFromRequest('filter.extension', 'extension', 'com_temakorok.temakorok');	
+		    $options['extension'] = $app->getUserStateFromRequest('filter.extension', 'extension', 'com_kepviselok.kepviselok');	
 			$options['table'] = $app->getUserStateFromRequest('filter.extensiontable', 'extensiontable');
-			$category = BookshopCategories::getInstance('Temakorok',$options)->get($id);
+			$category = BookshopCategories::getInstance('Kepviselok',$options)->get($id);
 		}
 
 		if($id < 1)
@@ -86,7 +86,7 @@ abstract class TemakorokHelperRoute
 			else
 			{
 				//Create the link
-				$link = 'index.php?option=com_temakorok&view=category&id='.$id;
+				$link = 'index.php?option=com_kepviselok&view=category&id='.$id;
 				if($category)
 				{
 					$catids = array_reverse($category->getPath());
@@ -113,7 +113,7 @@ abstract class TemakorokHelperRoute
 		if (self::$lookup === null) {
 			self::$lookup = array();
 
-			$component	= JComponentHelper::getComponent('com_temakorok');
+			$component	= JComponentHelper::getComponent('com_kepviselok');
 			$menus		= JApplication::getMenu('site');
 			$field = 'component_id';
 			$items		= $menus->getItems($field, $component->id);

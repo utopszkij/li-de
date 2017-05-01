@@ -1,0 +1,332 @@
+/* custom style */
+
+/*bal felső logo */
+.fa-email::before {content: "\f003"}
+.logo {width:160px; border-style:none; margin:-20px 5px 5px -20px;}
+
+/* kereső doboz */
+.searchKereses {text-align:right; margin-bottom:5px;}
+.searchKereses input {background-color:transparent; color:white; padding:2px 10px 2px 10px; width:200px;
+                      border-style:solid; border-width:1px; border-color:#808080; border-radius:5px;}
+.searchKereses .btn {background-color:transparent; padding:0px; margin:0px;
+                     color:white; font-family:FontAwesome; font-size:20px; vertical-align:top}
+.searchKereses .btn::before {content: "\f002"}
+
+
+/* felső menü */
+nav {text-align:right; font-size:12pt;}
+.navbar {border-radius:0px;}
+.navbar ul.menu span,
+.navbar ul.menu a {color:white; padding:1px 15px 10px 15px; text-decoration:none}
+.navbar ul.menu a:hover {background-color:#C52D2F}
+.navbar ul.menu > li {display:inline-block;}
+.navbar ul.menu > li > ul.nav-child {display:none; z-index:999; position:absolute; width:230px;
+     margin:-2px 2px 2px 2px 2px; padding: 0px; background-color:#222222; opacity:0.8; text-align:left}
+.navbar .nav-child li {padding:10px;}	 
+.navbar ul.menu > li:hover > ul.nav-child {display:block}
+
+/* gombok */
+div.akcioGombok, div.akciogombok {height:auto; min-height:45px; margin:10px 0px 10px 0px; min-height:20px; line-height:40px;}
+.akcioGombok a {border-style:solid; border-radius:3px; border-color:black;
+                background-color:#C52D2F; color:white; 
+				padding:5px 10px 5px 10px; margin-right:10px;}
+button,
+.akcioGomb {background-color:#C52D2F; color:white; 
+            padding:3px 10px 3px 10px; border-style:none; border-radius:3px; margin-right:2px}
+button:hover,
+.akcioGomb:hover {color:white; background-color:#A50D0F;}			
+	 
+.akcioIkon {font-family:FontAwesome; font-size:16px; padding:0px 2px 0px 2px}
+.akcioGomb {font-family:FontAwesome; font-size:16px; padding:10px 20px 10px 20px}
+.beallitasokGomb::before {content:"\f013"; margin-right:3px}
+.btnInfo::before {content:"\f129"; margin-right:3px}
+.ujGomb::before, 
+.ujAlTemaGomb::before {content:"\f016"; margin-right:3px}
+.tagokGomb::before {content:"\f007"; margin-right:3px}
+.btnBack::before {content:"\f062"; margin-right:3px}
+.btnEmails::before {content:"\f003"; margin-right:3px}
+.btnKepviselotValaszt::before {content:"\f0a4"; margin-right:3px}
+.btnUjJelolt::before {content:"\f024"; margin-right:3px}
+.btnDelete::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f057"; margin-right:3px}
+.btnOK::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f058"; margin-right:3px}
+.btnCancel::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f060"; margin-right:3px}
+.btnForum::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f0e5"; margin-right:3px}
+.btnFiles::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f0c6"; margin-right:3px}
+.btnEvents::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f073"; margin-right:3px}
+.btnFilter::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f002"; margin-right:3px}
+.btnClrFilter::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f057"; margin-right:3px}
+.btnAltDelete::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f057"; margin-right:3px}
+.btnEredmeny::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f080"; margin-right:3px}
+.iconIgen::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f087"; margin-right:3px}
+.iconNem::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f088"; margin-right:3px}
+.szavaztal::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f058"; margin:0px 3px}
+.btnSzavazatDelete::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f0e2"; margin-right:3px}
+.btnSzavazok::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f0a6"; margin-right:0px 3px 0px 0px}
+.btnEmailSzavazas::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f003"; margin-right:0px 3px 0px 0px}
+.btnLike::before {font-family:FontAwesome; content:"\f087"; margin-right:3px;} 
+.btnDisLike::before {font-family:FontAwesome; content:"\f088"; margin-right:3px;} 
+.icon-calendar {font-family: FontAwesome}
+.icon-calendar::before {content:"\f0f7"} 
+.btn-up::before {font-family:FontAwesome; content:"\f0d8"; margin-right:3px;} 
+.btn-dwn::before {font-family:FontAwesome; content:"\f0dd"; margin-right:3px;} 
+.btn-eq::before {font-family:FontAwesome; content:"\f052"; margin-right:3px;} 
+.btn-ne::before {font-family:FontAwesome; content:"\f07d"; margin-right:3px;} 
+
+
+.recent-work-inner a {color:white;}
+
+button#vita1_vege_img {font-family:FontAwesome; font-size:16px; padding:2px;}
+button#vita1_vege_img::before {content:"\f073";}
+button#vita2_vege_img {font-family:FontAwesome; font-size:16px; padding:2px;}
+button#vita2_vege_img::before {content:"\f073";}
+button#szavazas_vege_img {font-family:FontAwesome; font-size:16px; padding:2px;}
+button#szavazas_vege_img::before {content:"\f073";}
+
+/* bejelentkező dobozok */
+#modlgn-passwd {display:block}
+#modlgn-secretkey {display:block}
+.Slogin {display:none}
+
+
+/* comment */
+#comments-form .btn a {border-style:solid; border-width:1px; border-radius:3px; border-color:black;
+                background-image:none; background-color:#C52D2F; color:white; 
+				padding:5px 10px 5px 10px; margin:0px -10px 0px -10px; }
+#comments-form .btn a:hover	{color:white; background-color:#A50D0F;}						
+#comments-form .btn a::before {font-family:FontAwesome; font-size:16px; padding:1px 2px 1px 2px; content:"\f058"; margin-right:3px} 				
+#comments .comment-avatar img {max-width:32px; color:white; border-style:none; overflow:hidden;}
+#comments .avatar-indent {background-color:white}
+
+
+/* cikk */
+.article-info-term {display:none}
+.article-info dd {display:inline-block; width:auto; margin:0px 10px 0px 0px}
+.unseen {display:none}
+
+/* cimke feljő */
+.after .cimkefelho {width:100%; text-align:left}
+
+/* Értékelés */
+.content_vote .btn {border-style:solid; border-radius:3px; border-color:black;
+                background-color:#C52D2F; color:white; 
+				padding:5px 10px 5px 10px; margin-right:10px;}
+.content_vote label {margin-right:5px;}				
+
+/* Ürlapok */				
+.control-label {display:inline-block; width:300px;}
+.controls {display:inline-block; width:auto;}				
+
+/* Táblázatok*/
+thead th {background-color: #151515; color:white; border-style:solid; border-color:white; border-width:3px; padding:2px;}
+.th, .th a {color:white}
+.thOrdering a {color:orange; font-weight:bold}
+tbody .row0 td {background-color: #E0F0E0; border-style:solid; border-color:white; border-width:3px; padding:2px}
+tbody .row1 td {background-color: #E0E0F0; border-style:solid; border-color:white; border-width:3px; padding:2px}
+tbody td img {width:50px; float:left}
+
+/* lapozosor */
+.pagination-list {clear:both;}
+.pagination-list li {display:inline-block; width:auto; margin:2px 5px 2px 5px; list-style:none}
+.pagination-list li.active {display:inline-block;}
+.pagination-list li.visited {display:inline-block;}
+.pagination-list li.disabled {display:inline-block;}
+.pagination-list .icon-backward::before {font-family: FontAwesome; content:"\f049"}
+.pagination-list .icon-step-backward::before {font-family: FontAwesome; content:"\f048"}
+.pagination-list .icon-forward::after {font-family: FontAwesome; content:"\f050"}
+.pagination-list .icon-step-forward::after {font-family: FontAwesome; content:"\f051"}
+
+/*************************
+***Home Page, slider *****
+**************************/
+#header .well {padding:0px; margin:0px;}
+#myslider {height:450px; min-height:450px; background-color:white; color:white; 
+           margin:0px -1px 0px -1px}
+#myslider h2, 
+#myslider h3 {color:white} 
+#myslider a.btn-slide {
+  padding: 8px 20px;
+  background: #c52d2f;
+  color: #fff;
+  border-radius: 4px;
+  border:none;
+  margin-top: 10px;
+}  
+#slide1, #slide2, #slide3 {height:450px;}
+.animated-item-2, .animated-item-1 {background-color:#505050; opacity:0.8; padding:5px; border-radius:10px;}
+
+
+/* modulok */
+
+.well {background-color:transparent; border-style:solid; border-color:silver; border-width:0px 0px 1px 0px; padding:5px; margin:1px;}
+.well h3 {color: #C52D2F; font-family: FontAwesome; font-size:20px; font-weight:bold; margin-top:1px;}
+.msgModul h3::before {content: "\f003"}
+.usersModul h3::before {content: "\f007"}
+.groupsModul h3::before {content: "\f0c0"}
+.eventsModul h3::before {content: "\f017"}
+.photosModul h3::before {content: "\f083"}
+.videosModul h3::before {content: "\f008"}
+.cikkekModul h3::before {content: "\f0e8"} 
+
+.before .well {margin:0px; padding:0px; display:block; border-style:none}
+.after .well {display:inline-block; vertical-align:top; border-width:0px;
+              background-color:#E6E6E6;
+              margin:1%; padding:1%; width:22.9999%; height:320px;}
+.after .well h3 {margin:2px; font-size:20px; font-weight:600}			  
+
+/* user menü */
+#usermenu_mobil {display:none}
+#usermenu_normal {display:block}
+#userDoboz {text-align:right; color:white; font-family: FontAwesome}
+#userDoboz a,
+#userDoboz a:hover,
+#userDoboz a:visited,
+#userDoboz a:active {color:white}
+#userDoboz ul {padding:0px}
+#userDoboz #userDoboz2{display:inline-block; width:auto}
+#userDoboz .userMenuIcon {display:none}
+#userDoboz li {display:inline-block;}
+#userDoboz .icon-regist::before {content: "\f084"}
+#userDoboz .icon-login::before {content: "\f090"}
+#userDoboz .icon-logout::before {content: "\f08b"}
+#userDoboz .icon-profil::before {content: "\f085"}
+#userDoboz .icon-user::before {content: "\f007"}
+
+/* táblázatok */
+.thOrdering {font-weight:bold; color:red;}
+
+/* témakör lista, témakör oldal, témakör doboz */
+.temakorokList .item {display:inline-block; vertical-align:top; margin:0px 5px 5px 0px; padding:1%; 
+					  background-color:#E0E0E0; border-style:none; border-width:0px;
+                      width:276px; height:330px; text-align:center}
+.temakorokList .item img {height:50%; max-width:80%}
+.temakorokList .item div.leiras {display:none; text-align:left;}
+.temakorokList .item a {text-decoration:none}
+.temakorokList .item:hover > a > img {display:none}
+.temakorokList .item:hover div.leiras {display:block}
+
+.temakorokList .items div:hover {background-color:#F9ACA7} 
+
+#temakorInfo {background-color:#E0E0F0; padding:10px; border-radius:5px; margin:0px 0px 15px 0px}
+#temakorInfo img {max-height:100px;}
+.kepviselo {line-height:55px;}
+.kepviselo a {margin-right:4px;}
+
+/* kezdőlapi ikonok */
+.fa-aktiv::before {content: "\f073"}
+.fa-vita1::before {content: "\f075"}
+.fa-vita2::before {content: "\f086"}
+.fa-szavazas::before {content: "\f013"}
+.fa-lezart::before {content: "\f023"}
+.fa-elvetelt::before {content: "\f014"}
+.fa-szavazhatsz::before {content: "\f019"}
+.fa-szavaztam::before {content: "\f046"}
+.fa-friss::before {content: "\f017"}
+.fa-fotok::before {content: "\f083"}
+.fa-videok::before {content: "\f008"}
+.fa-csoport::before {content: "\f0c0"}
+.fa-tag::before {content: "\f007"}
+.fa-uzenetek::before {content: "\f003"}
+
+/* témák */
+.temak{
+  padding: 0;
+}
+.tema-wrap {
+  margin-bottom: 35px;
+  overflow: hidden;
+  height:200px; max-height:170px;
+}
+.tema-wrap h2{
+  margin-top: 10px;
+}
+.tema-wrap .pull-left {
+  margin-right: 25px;
+}
+.tema-wrap i{
+  font-size: 48px;
+  height: 110px;
+  width: 110px;
+  margin: 3px;
+  border-radius: 100%;
+  line-height: 110px;
+  text-align:center;
+  background: #ffffff;
+  color: #c52d2f;
+  border: 3px solid #ffffff;
+  box-shadow: inset 0 0 0 5px #f2f2f2;
+  -webkit-box-shadow: inset 0 0 0 5px #f2f2f2;
+  -webkit-transition: 500ms;
+  -moz-transition: 500ms;
+  -o-transition: 500ms;
+  transition: 500ms;
+  float: left;
+  margin-right: 25px;
+}
+.tema-wrap i:hover {
+  background: #c52d2f;
+  color: #fff;
+  box-shadow: inset 0 0 0 5px #c52d2f;
+  -webkit-box-shadow: inset 0 0 0 5px #c52d2f;
+  border: 3px solid #c52d2f;
+}
+
+/* szavazások lista, szavazás oldal */
+#szavazasInfo {background-color:#E0E0F0; padding:10px; border-radius:5px; margin:0px 0px 15px 0px}
+#szavazasInfo img {max-height:100px;}
+
+
+/* footer */
+#footer .well {background-color:transparent; padding:1%; margin:1%; display:inline-block; vertical-align:top; 
+               width:47.999%; height:200px;}
+#footer h3 {margin:5px;}
+/* egyebek */
+.after .rejtett {display:none}
+#footer ul > li {display:block; clear:both; padding:2px; margin:0px;}
+#footer ul > li a {padding: 1px 1px 1px 1px; margin: 1pxp 1px 1px 1px}
+
+.services-wrap {height:280px; max-height:280px}
+
+
+/* 
+********************************
+*           resposive          *
+********************************
+*/
+@media (min-width: 1200px) {
+	.menuTogle {display:none}
+	.col-md-4 {width:30%; max-width:30%; margin:0px 1% 0px 1%; padding:0px; background:transparent}
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+	.menuTogle {display:none}
+	.col-md-4 {width:30%; max-width:30%; margin:0px 1% 0px 1%; padding:0px;}
+}
+@media (min-width: 768px) and (max-width: 991px) {
+	.navbar-collapse {display:block; width:100%}	
+	.menuTogle {float:right; display:inline-block; width:auto;}
+	ul.menu {display:none; position:fixed; height:auto; width:190px; left:50px; top:50px; background-color:#606060}
+	ul.menu > li {display:block; clear:both}
+	.navbar-inverse .navbar-nav .dropdown-menu {background-color:#606060; position:relative; 
+												border-style:solid; border-color:black; border-width:1px;
+												width:300px; height:auto; left:30px; top:0px;}
+	.col-md-4 {width:30%; max-width:30%; margin:0px 1% 0px 1%; padding:0px; }
+}
+@media (max-width: 767px) {
+.navbar-collapse {display:block; width:100%}	
+.menuTogle {float:right; display:inline-block; width:auto;}
+.col-c-2 {min-width:300px; margin-left:5px;}
+footer ul.menu {display:block;} 
+footer ul.menu a {font-size:18px;}
+header ul.menu {display:none; position:fixed; height:auto; width:190px; left:50px; top:50px; background-color:#606060; z-index:999}
+
+ul.menu > li {display:block; clear:both}
+.navbar-inverse .navbar-nav .dropdown-menu {background-color:#606060; position:relative; 
+                                            border-style:solid; border-color:black; border-width:1px;
+											width:300px; height:auto; left:30px; top:0px;}
+.media-body {clear:both}
+.services-wrap {height:auto}
+#temak .col-md-4 {width:47%; max-width:47%; margin:0px 1% 0px 1%; padding:0px;}
+#services .col-md-4 {width:95%; max-width:95%; margin:0px 1% 0px 1%; padding:0px;}
+#userDoboz {width:100%; text-align:right; float:right; margin-right:20px; font-size:12px;}
+#userDoboz a {font-size:18px;}
+
+}

@@ -27,17 +27,36 @@ function thClass($col) {
   return $result;  
 }
 
+/**
+* get avatar img from a user
+* @param  int user_id or Juser user_object
+* @param  int kép szélesség
+* @return string url
+*/
+function getAvatar($user, $w = 80) {
+	if (!is_object($user)) {
+		$user = JFactory::getUser($user);
+	}
+	if (is_object($user->params))
+	   $params = $user->params;
+	else	
+	   $params = JSON_decode($user->params);
+	if ($params->avatar == '') {
+	   $params->avatar = 'http://gravatar.com/avatar/'.md5(strtolower(trim($user->email))).'?s='.$w.'mmg';
+	}
+	return '<img src="'.$params->avatar.'" width="'.$w.'" />';
+}
+
+
 // Szavazaás kiirása
 //$szuser = JFactory::getUser($this->Szavazas->letrehozo);
 // $szuser->load($this->Szavazas->letrehozo);
 $db = JFactory::getDBO();
 $user = JFactory::getUser();
-$db->setQuery('SELECT email,name from #__users WHERE id="'.$this->Szavazas->letrehozo.'"');
+$db->setQuery('SELECT * from #__users WHERE id="'.$this->Szavazas->letrehozo.'"');
 $szuser = $db->loadObject();
-if ($szuser) 
-   $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $szuser->email )));
-else
-   $grav_url = '';    
+$avatar = getAvatar($szuser,55);
+
 echo '<div class="szavazasfej">
 <h3>'.$this->Szavazas->megnevezes.'
   <a href="javascript:szinfoClick()" class="akcioIkon btnInfo" title="Infó" id="btnszinfo" style="display:none">&nbsp;</a>';
@@ -65,9 +84,12 @@ echo '
   <p style="text-align:right">
     <button type="button" onclick="szinfoClose()"><b>X</b></button>
   </p>
+  
   <div style="float:left; width:60px">
-  <img src="'.$grav_url.'" width="50" /><br />'.$szuser->name.'
+  '.$avatar.'
+  <br />'.$szuser->name.'
   </div>
+  
   '.$this->Szavazas->leiras.'
   <p><br /><b>Létrehozva/módosítva: </b>'.str_replace('-','.',$this->Szavazas->letrehozva).
     '<br /><b>Alternatíva javaslat vita vége: </b>'.str_replace('-','.',$this->Szavazas->vita1_vege).

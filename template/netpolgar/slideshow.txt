@@ -1,0 +1,75 @@
+<!-- slider 
+Ezt a kodot a joomla modulkezelőben egyedi HTML modulknt kell elhelyezni.
+Rendszerint csak a kezdőlapon megfelenően before-content pozicióba.
+
+-->
+    <section id="myslider" class="no-margin">
+        <div class="carousel slide">
+            <div class="carousel-inner">
+                <div id="slide1" class="item active" style="background-image: url(templates/adatmagus_bootstrap/images/slider/bg1.jpg)">
+                    <div class="container">
+                        <div class="row slide-margin">
+                            <div class="col-sm-6">
+                                <div class="carousel-content">
+                                    <h1 class="animation animated-item-1">Csináljunk egy jobb világot!</h1>
+                                    <h2 class="animation animated-item-2">Elemezzük a múltat és a jelent, 
+									vizsgáljuk meg a javítási lehetőségeket!
+									A kollektív bölcsesség segitségével talájuk meg a legjobb alternatív megoldásokat!</h2>
+                                    <a class="btn-slide" href="#">Bővebben</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 hidden-xs animation animated-item-4">
+                                <div class="slider-img" style="margin-top:235px">
+                                    <img src="templates/adatmagus_bootstrap/images/slider/img1.png" class="img-responsive">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!--/.item-->
+
+                <div id="slide2" class="item" style="background-image: url(templates/adatmagus_bootstrap/images/slider/bg2.jpg)">
+                    <div class="container">
+                        <div class="row slide-margin">
+                            <div class="col-sm-6">
+                                <div class="carousel-content">
+                                    <h1 class="animation animated-item-1">Demokratikusan hozzuk meg a döntéseket!</h1>
+                                    <h2 class="animation animated-item-2">A XXI század technikai lehetőségeinek falhasználásával korszerű szavazási rendszereket használhatunk.</h2>
+                                    <a class="btn-slide" href="#">Bővebben</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 hidden-xs animation animated-item-4">
+                                <div class="slider-img" style="margin-top:50px">
+                                    <img src="templates/adatmagus_bootstrap/images/slider/img2.png" class="img-responsive">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!--/.item-->
+
+                <div id="slide3" class="item" style="background-image: url(templates/adatmagus_bootstrap/images/slider/bg3.jpg)">
+                    <div class="container">
+                        <div class="row slide-margin">
+                            <div class="col-sm-6">
+                                <div class="carousel-content">
+                                    <h1 class="animation animated-item-1">Ha megszületet a döntés akkor valósítsuk is meg!</h1>
+                                    <h2 class="animation animated-item-2">Jobb világot hagyjunk a következő nemzedékeknek, 
+									mint amiben mi élünk! A termelés és elosztás folyamatait is demokratikusan szervezzük meg!</h2>
+                                    <a class="btn-slide" href="#">Bővebben</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 hidden-xs animation animated-item-4">
+                                <div class="slider-img" style="margin-top:120px">
+                                    <img src="templates/adatmagus_bootstrap/images/slider/img3.png" class="img-responsive">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div><!--/.item-->
+            </div><!--/.carousel-inner-->
+        </div><!--/.carousel-->
+    </section><!--/#main-slider-->
+

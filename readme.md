@@ -1,6 +1,6 @@
-Likvid demokrácia szofver
+# Likvid demokrácia szofver
 
-Tulajdonságok:
+## Tulajdonságok:
 
 - fa strukturájú témakör rendszer
 - preferenciális szavazás (Borda, Condorcet, Shulze)
@@ -13,7 +13,7 @@ Nyelv: Joomla 3 alapú php
 
 Licensz: GNU/GPL
 
-Telepités:
+## Telepités:
 
 1. Joomla rendszer telepités
 2. iccalendar, jcomments, jdownloads, kunena, uddeim kiegészitők telepitése
@@ -21,7 +21,21 @@ Telepités:
 4. pluginek telepitése
 5. a foltok "könyvtár helyes" feltöltése
 6. adalogin komponens telepitése és konfigurálása (lásd github/edemo)
-7. joomla admin felületen mfejléc, menü és modul konfigurálás, template telepités stb.
+7. joomla admin felületen fejléc, menü és modul konfigurálás, template telepités stb.
+
+## információk programozóknak
+view->dispay() müködése:
+
+Ha létezik 'lngCode'.'tmplName'.php akkor ezt használja, egyébként a 'tmplName.php' -t.
+
+Keresés elöször a 'template_path'/html/com_lide/'viewname' könyvtárban, másodszor a 'component_path'/views/'viewname'/tmpl könyvtárban
+
+### php unittests:
+
+cd repo_path
+
+phpunit ./tests/site
+
 
 
 

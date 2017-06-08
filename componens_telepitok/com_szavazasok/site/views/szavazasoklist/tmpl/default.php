@@ -25,6 +25,47 @@ function thClass($col) {
   return $result;  
 }
 
+/**
+* get avatar img from a user
+* @param  int user_id or Juser user_object
+* @param  int kép szélesség
+* @return string url
+*/
+function getAvatar($user, $w = 80) {
+	if (!is_object($user)) {
+		$user = JFactory::getUser($user);
+	}
+	if (is_object($user->params))
+	   $params = $user->params;
+	else	
+	   $params = JSON_decode($user->params);
+	if ($params->avatar == '') {
+	   $params->avatar = 'http://gravatar.com/avatar/'.md5(strtolower(trim($user->email))).'?s='.$w.'mmg';
+	}
+	return '<img src="'.$params->avatar.'" width="'.$w.'" />';
+}
+
+function kepLeirasbol($leiras) {
+	  $matches = Array();
+	  $kep = '';
+	  preg_match('/<img[^>]+>/i', $leiras, $matches);
+	  if (count($matches) > 0) {
+		  $img = $matches[0];
+		  // src attributum kiemelése
+		  preg_match('/src="[^"]+"/i', $img, $matches);
+		  if (count($matches) > 0) {
+			$src = $matches[0];
+		  } else {
+			$src = '';  
+		  }	
+	  } else {
+		  $src = '';	
+	  }
+	  if ($src != '') {
+		  $kep = '<img '.$src.' style="width:80px; float:left; margin:2px;" />';
+	  }
+	  return $kep;
+}
 
 echo '
 <div class="componentheading'.$this->escape($this->params->get('pageclass_sfx')).'">
@@ -38,11 +79,17 @@ echo '
       echo '<a href="'.$this->Akciok['tagJelentkezes'].'" class="akcioIkon tagJelentkezoGomb" title="'.JText::_('TAGJELENTKEZES').'">&nbsp;</a>
       ';
   }
+  echo '
+  <button type="button" onclick="policyClick()">
+	témakör / csoport müködési szabályzat
+  </button>
+  ';
   if ($this->Temakor->allapot == 1) echo '('.JText::_('CLOSED').')';
   if ($this->Temakor->leiras != '')
 		echo '  
 		</h3>
 		<div id="temakorInfo" style="display:block;">
+		  <div style="width:80px; height:80px; float:left; margin:2px;" class="avatarDiv">'.getAvatar($this->Temakor->letrehozo).'</div>
 		  <p style="text-align:right">
 			<button type="button" onclick="infoClose()"><b>X</b></button>
 		  </p>
@@ -107,6 +154,23 @@ $w = explode('|',urldecode(JRequest::getVar('filterStr','')));
 if ($w[1]==1) $filterAktiv = 'checked="checked"';
 echo '
 </div>
+';
+if (count($this->AlTemak) > 0) {
+	  echo '<div class="altemakDiv">
+	  <h3>'.JText::_('ALTEMAK').'</h3>
+	  <ul class="altemakUl">
+	  ';
+	  foreach ($this->AlTemak as $alTema) {
+		$alTemaLink = JURI::base().'/index.php?option=com_szavazasok&view=szavazasoklist&temakor='.$alTema->id;
+		$kep = kepLeirasbol($alTema->leiras);
+		echo '<li><a href="'.$alTemaLink.'">'.$kep.$alTema->megnevezes.' </a></li>';
+	  }
+	  echo '</ul>
+	  </div>
+	  ';
+};
+echo '
+<div class="szavazasokDiv'.$this->escape($this->params->get('pageclass_sfx')).'">
 <h2>'.$this->Title.'</h2>
 <div class="szuroKepernyo">
   <form action="'.$this->doFilterLink.'&task=dofilter" method="post">
@@ -123,9 +187,7 @@ echo '
     </div>
   </form>
 </div>
-
-<div class="tableKepviselok'.$this->escape($this->params->get('pageclass_sfx')).'">
-	<table border="0" width="100%">
+<table border="0" width="100%"  class="szavazasokTable">
   <thead>
   <tr>
     <th class="'.thClass(1).'">
@@ -156,20 +218,6 @@ echo '
   </thead>
   <tbody>
   ';
-
-	if (count($this->AlTemak) > 0) {
-	  echo '<tr><td colspan="9"><div class="altemak">
-	  <ul>
-	  ';
-	  foreach ($this->AlTemak as $alTema) {
-		$alTemaLink = JURI::base().'/index.php?option=com_szavazasok&view=szavazasoklist&temakor='.$alTema->id;
-		echo '<li><a href="'.$alTemaLink.'">'.$alTema->megnevezes.' </a></li>
-		';
-	  }
-	  echo '</ul>
-	  </div></td></tr>
-	  ';
-	}
 	
   $rowClass = 'row0';
   foreach ($this->Items as $item) { 
@@ -187,24 +235,7 @@ echo '
   	  if ($item->vita2 == 'X') $allapot = JText::_('SZAVAZASVITA2'); 
   	  if ($item->szavazas == 'X')	$allapot = JText::_('SZAVAZAS'); 
   	  if ($item->lezart == 'X') $allapot = JText::_('LEZART'); 
-	  // img tag kiemelése
-	  $matches = Array();
-	  preg_match('/<img[^>]+>/i', $item->leiras, $matches);
-	  if (count($matches) > 0) {
-		  $img = $matches[0];
-		  // src attributum kiemelése
-		  preg_match('/src="[^"]+"/i', $img, $matches);
-		  if (count($matches) > 0) {
-			$src = $matches[0];
-		  } else {
-			$src = '';  
-		  }	
-	  } else {
-		  $src = '';	
-	  }
-	  if ($src != '') {
-		  $kep = '<img '.$src.' style="width:80px; float:left; margin:2px;" />';
-	  }
+	  $kep = kepLeirasbol($item->leiras);
 	  
       if ($item->vita == '') $item->vita = '0';				
       if ($item->szavazas == '') $item->szavazas = '0';				
@@ -226,6 +257,7 @@ echo '
 echo '
 </tbody>
 </table>		
+<div style="clear:booth"></div>
 <div class="lapozosor">
   '.$this->LapozoSor.'
 </div>
@@ -238,6 +270,11 @@ echo '
   function infoClose() {
     document.getElementById("temakorInfo").style.display="none";
     document.getElementById("iconInfo").style.display="inline-block";
+  }
+  function policyClick() {
+	  location="'.JURI::base().'index.php?option=com_temakorok&view=temakorok&task=policy'.
+	  '&temakor='.JRequest::getVar('temakor').
+	  '&'.JSession::getFormToken().'=1";
   }
 </script>
 ';

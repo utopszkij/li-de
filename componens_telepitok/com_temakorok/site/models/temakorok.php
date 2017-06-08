@@ -23,13 +23,11 @@ $app = JFactory::getApplication('site');
 
 /**
  * TemakorokModelTemakorok
- * @author $Author$
+ * @author Fogler Tibor
  */
  
  
 class TemakorokModelTemakorok  extends JModelItem { 
-
-	
 	
 	protected $context = 'com_temakorok.temakorok';   
 	/**
@@ -46,19 +44,18 @@ class TemakorokModelTemakorok  extends JModelItem {
 		//$params	= $app->getParams();
 
 		// Load the object state.
-		$id	= JRequest::getInt('id');
+		// $id	= JRequest::getInt('id');
 		$this->setState('temakorok.id', $id);
 
 		// Load the parameters.
 		//TODO: componenthelper
-		//$this->setState('params', $params);
+		$this->setState('params', $params);
 	}
 
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
 		$id	.= ':'.$this->getState('temakorok.id');
-
 		return parent::getStoreId($id);
 	}
 	
@@ -95,6 +92,511 @@ class TemakorokModelTemakorok  extends JModelItem {
 		}
 		return $this->_item;
 	}
+
+	/**
+	* get Policity
+	* @param integer temakor.id
+	* @return json object
+	*/
+	public function getPolicy($id) {
+		$db = JFactory::getDBO();
+		$result = new stdClass();
+		$result->basicPolicy = $this->getBasicPolicy($id);
+		$result->memberPolicy = $this->getMemberPolicy($id);
+		$result->subthemePolicy = $this->getSubthemePolicy($id);
+		$result->ranksPolicy = $this->getRanksPolicy($id);
+		$result->disqusionPolicy = $this->getDisqusionPolicy($id);
+		return $result;
+	}
+	
+	/**
+	* get temakor basicPolicity
+	* @param integer temakor.id
+	* @return json object
+	*/
+	public function getBasicPolicy($id) {
+		$db = JFactory::getDBO();
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+		} else {
+			$json = '{}';
+		} 
+		$config = JSON_decode($json);
+		if (isset($config->basicPolicy))
+			$result = $config->basicPolicy;
+		else
+			$result = new stdClass();
+		
+		// ranks név lista betétele a result -ba
+		$ranks = array();
+		if (isset($config->ranksPolicy)) {
+			foreach ($config->ranksPolicy as $rank) {
+				$ranks[] = $rank->name;
+			}
+		} else {
+			$ranks[] = 'Tagok'; 
+			$ranks[] = 'Adminisztrátorok'; 
+		}
+		$result->ranks = $ranks;
+		if (!isset($result->groupType)) $result->groupType = 0;
+		if (!isset($result->groupMemberLimit)) $result->groupMemberLimit = 0;
+		if (!isset($result->autoGroupSplit)) $result->autoGroupSplit = 1;
+		if (!isset($result->groupCloseProporse)) $result->groupCloseProporse = array('Tagok');
+		if (!isset($result->groupCloseEndorse)) $result->groupCloseEndorse = array('Tagok');
+		if (!isset($result->groupCloseRule)) $result->groupCloseRule = '50';
+		if (!isset($result->groupArchiveDay)) $result->groupArchiveDay = 365;
+		if (!isset($result->groupComment)) $result->groupComment = array('Látogatók');
+		if (!isset($result->edit)) $result->edit = array('Adminisztrátorok');
+		if (!isset($result->remove)) $result->remove = array('Adminisztrátorok');
+		if (!is_array($result->groupCloseProporse)) $result->groupCloseProporse = array('Tagok');
+		if (!is_array($result->groupCloseEndorse)) $result->groupCloseEndorse = array('Tagok');
+	
+		return $result;
+	}
+
+	/**
+	* basicPolicy tárolása a képernyön lévő adatok alapján
+    */	
+	public function basicPolicySave() {
+		$db = JFactory::getDBO();
+		$groupType = JRequest::getVar('groupType',0);
+		$groupMemberLimit = JRequest::getVar('groupMemberLimit',0);
+		$autoGroupSplit = JRequest::getVar('autoGroupSplit',0);
+		$groupCloseProporse = JRequest::getVar('groupCloseProporse',array());
+		$groupCloseEndorse = JRequest::getVar('groupCloseEndorse',array());
+		$groupComment = JRequest::getVar('groupComment',array());
+		$edit = JRequest::getVar('edit',array());
+		$remove = JRequest::getVar('remove',array());
+		$groupCloseRule = JRequest::getVar('groupCloseRule','debian');
+		$groupArchiveDay = JRequest::getVar('groupArchiveDay',365);
+		$temakor_id =  JRequest::getVar('temakor',0);
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$temakor_id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+			$new = false;
+		} else {
+			$json = '{}';
+			$new = true;
+		} 
+		$config = JSON_decode($json);
+
+		$basicPolicy = new stdClass();
+		$basicPolicy->groupType = $groupType;
+		$basicPolicy->groupMemberLimit = $groupMemberLimit;
+		$basicPolicy->autoGroupSplit = $autoGroupSplit;
+		$basicPolicy->groupCloseProporse = $groupCloseProporse;
+		$basicPolicy->groupCloseEndorse = $groupCloseEndorse;
+		$basicPolicy->groupComment = $groupComment;
+		$basicPolicy->groupCloseRule = $groupCloseRule;
+		$basicPolicy->groupArchiveDay = $groupArchiveDay;
+		$basicPolicy->edit = $edit;
+		$basicPolicy->remove = $remove;
+		$config->basicPolicy = $basicPolicy;
+		if ($new) {
+			$db->setQuery('insert into #__beallitasok (id,json)
+			value ('.$db->quote(10 + $temakor_id).','.$db->quote(JSON_encode($config)).')');
+		} else {
+			$db->setQuery('update #__beallitasok
+			set json='.$db->quote(JSON_encode($config)).'
+			where id='.$db->quote(10 + $temakor_id));
+		}
+		$result = $db->query();
+		if (!$result) $this->setError($db->getErrorMsg());
+		return $result;
+	}
+
+	/**
+	* get temakor memberPolicity
+	* @param integer temakor.id
+	* @return json object
+	*/
+	public function getMemberPolicy($id) {
+		$db = JFactory::getDBO();
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+		} else {
+			$json = '{}';
+		} 
+		$config = JSON_decode($json);
+		if (isset($config->memberPolicy))
+			$result = $config->memberPolicy;
+		else
+			$result = new stdClass();
+		
+		// ranks név lista betétele a result -ba
+		$ranks = array();
+		if (isset($config->ranksPolicy)) {
+			foreach ($config->ranksPolicy as $rank) {
+				$ranks[] = $rank->name;
+			}
+		} else {
+			$ranks[] = 'Tagok'; 
+			$ranks[] = 'Adminisztrátorok'; 
+		}
+		$result->ranks = $ranks;
+		if (!isset($result->memberCandidate)) $result->memberCandidate = 1;
+		if (!isset($result->memberProporse)) $result->memberProporse = array('Tagok');
+		if (!isset($result->memberEndorse)) $result->memberEndorse = array('Tagok');
+		if (!isset($result->memberRule)) $result->memberRule = '50';
+		if (!isset($result->memberAdd)) $result->memberAdd = array('Adminisztrátorok');
+		if (!isset($result->memberExludeProporse)) $result->memberExludeProporse = array('Tagok');
+		if (!isset($result->memberExludeEndorse)) $result->memberExludeEndorse = array('Tagok');
+		if (!isset($result->memberExludeRule)) $result->memberExludeRule = '80';
+		if (!isset($result->memberExlude)) $result->memberExlude = array('Adminisztrátorok');
+		return $result;
+	}
+
+	/**
+	* memberPolicy tárolása a képernyön lévő adatok alapján
+    */	
+	public function memberPolicySave() {
+		$db = JFactory::getDBO();
+		$memberCandidate = JRequest::getVar('memberCandidate',0);
+		$memberProporse = JRequest::getVar('memberProporse',array());
+		$memberEndorse = JRequest::getVar('memberEndorse',array());
+		$memberRule = JRequest::getVar('memberRule',50);
+		$memberAdd = JRequest::getVar('memberAdd',array());
+		$memberExludeProporse = JRequest::getVar('memberExludeProporse',array());
+		$memberExludeEndorse = JRequest::getVar('memberExludeEndorse',array());
+		$memberExludeRule = JRequest::getVar('memberExludeRule',80);
+		$memberExlude = JRequest::getVar('memberExlude',array());
+		$temakor_id =  JRequest::getVar('temakor',0);
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$temakor_id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+			$new = false;
+		} else {
+			$json = '{}';
+			$new = true;
+		} 
+		$config = JSON_decode($json);
+
+		$memberPolicy = new stdClass();
+		$memberPolicy->memberCandidate = $memberCandidate;
+		$memberPolicy->memberProporse = $memberProporse;
+		$memberPolicy->memberEndorse = $memberEndorse;
+		$memberPolicy->memberRule = $memberRule;
+		$memberPolicy->memberAdd = $memberAdd;
+		$memberPolicy->memberExludeProporse = $memberExludeProporse;
+		$memberPolicy->memberExludeEndorse = $memberExludeEndorse;
+		$memberPolicy->memberExludeRule = $memberExludeRule;
+		$memberPolicy->memberExlude = $memberExlude;
+		
+		$config->memberPolicy = $memberPolicy;
+		if ($new) {
+			$db->setQuery('insert into #__beallitasok (id,json)
+			value ('.$db->quote(10 + $temakor_id).','.$db->quote(JSON_encode($config)).')');
+		} else {
+			$db->setQuery('update #__beallitasok
+			set json='.$db->quote(JSON_encode($config)).'
+			where id='.$db->quote(10 + $temakor_id));
+		}
+		$result = $db->query();
+		if (!$result) $this->setError($db->getErrorMsg());
+		return $result;
+	}
+
+	/**
+	* get temakor althemaPolicity
+	* @param integer temakor.id
+	* @return json object
+	*/
+	public function getSubthemePolicy($id) {
+		$db = JFactory::getDBO();
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+		} else {
+			$json = '{}';
+		} 
+		$config = JSON_decode($json);
+		if (isset($config->subthemePolicy))
+			$result = $config->subthemePolicy;
+		else {
+			$result = new stdClass();
+			$result->ranks = $ranks;
+			$result->subthemeAdd = array('Adminisztrátorok');
+			$result->subthemeProporse = array('Tagok');
+			$result->subthemeEndorse = array('Tagok');
+			$result->subthemeRule = 'debian';
+		}
+		// ranks név lista betétele a result -ba
+		$ranks = array();
+		if (isset($config->ranksPolicy)) {
+			foreach ($config->ranksPolicy as $rank) {
+				$ranks[] = $rank->name;
+			}
+		} else {
+			$ranks[] = 'Tagok'; 
+			$ranks[] = 'Adminisztrátorok'; 
+		}
+		return $result;
+	}
+
+	/**
+	* altemaPolicy tárolása a képernyön lévő adatok alapján
+    */	
+	public function subthemePolicySave() {
+		$db = JFactory::getDBO();
+		$subthemeProporse = JRequest::getVar('subthemeProporse',array());
+		$subthemeEndorse = JRequest::getVar('subthemeEndorse',array());
+		$subthemeRule = JRequest::getVar('subthemeRule',50);
+		$subthemeAdd = JRequest::getVar('subthemeAdd',array());
+		$temakor_id =  JRequest::getVar('temakor',0);
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$temakor_id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+			$new = false;
+		} else {
+			$json = '{}';
+			$new = true;
+		} 
+		$config = JSON_decode($json);
+
+		$subthemePolicy = new stdClass();
+		$subthemePolicy->subthemeProporse = $subthemeProporse;
+		$subthemePolicy->subthemeEndorse = $subthemeEndorse;
+		$subthemePolicy->subthemeRule = $subthemeRule;
+		$subthemePolicy->subthemeAdd = $subthemeAdd;
+		
+		$config->subthemePolicy = $subthemePolicy;
+		if ($new) {
+			$db->setQuery('insert into #__beallitasok (id,json)
+			value ('.$db->quote(10 + $temakor_id).','.$db->quote(JSON_encode($config)).')');
+		} else {
+			$db->setQuery('update #__beallitasok
+			set json='.$db->quote(JSON_encode($config)).'
+			where id='.$db->quote(10 + $temakor_id));
+		}
+		$result = $db->query();
+		if (!$result) $this->setError($db->getErrorMsg());
+		return $result;
+	}
+
+	/**
+	* get temakor ranksPolicity
+	* @param integer temakor.id
+	* @return json object
+	*/
+	public function getRanksPolicy($id) {
+		$db = JFactory::getDBO();
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+		} else {
+			$json = '{}';
+		} 
+		$config = JSON_decode($json);
+		if (isset($config->ranksPolicy))
+			$result = $config->ranksPolicy;
+		else {
+			$result = array();
+			$rank = new stdClass();
+			$rank->name = 'Tagok';
+			$rank->rankCount = 0;
+			$rank->interval = 0;
+			$rank->rule = '0';
+			$result[] = $rank;
+			$rank = new stdClass();
+			$rank->name = 'Adminisztrátorok';
+			$rank->rankCount = 1;
+			$rank->interval = 0;
+			$rank->rule = '0';
+			$result[] = $rank;
+		}
+		// fix beállítások
+		$result[0]->name = 'Tagok';
+		$result[0]->rankCount = 0;
+		$result[0]->interval = 0;
+		$result[0]->rule = '0';
+		$result[1]->name = 'Adminisztrátorok';
+		if ($result[1]->rankCount < 1) $result[1]->rankCount = 1;
+		
+		return $result;
+	}
+
+	/**
+	* altemaPolicy tárolása a képernyön lévő adatok alapján
+    */	
+	public function ranksPolicySave() {
+		$db = JFactory::getDBO();
+		$rankName = JRequest::getVar('rankName',array());
+		$rankCount = JRequest::getVar('rankCount',array());
+		$rankInterval = JRequest::getVar('rankInterval',50);
+		$rankRule = JRequest::getVar('rankRule',array());
+		$temakor_id =  JRequest::getVar('temakor',0);
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$temakor_id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+			$new = false;
+		} else {
+			$json = '{}';
+			$new = true;
+		} 
+		$config = JSON_decode($json);
+
+		$ranksPolicy = array();
+		for ($i=0; $i<10; $i++) {
+			if ($rankName[$i] != '') {
+				$rank = new stdClass();
+				$rank->name = $rankName[$i];
+				$rank->rankCount = $rankCount[$i];
+				$rank->interval = $rankInterval[$i];
+				$rank->rule = $rankRule[$i];
+				$ranksPolicy[] = $rank;
+			}
+		}
+		// fix beállítások
+		$ranksPolicy[0]->name = 'Tagok';
+		$ranksPolicy[0]->rankCount = 0;
+		$ranksPolicy[0]->interval = 0;
+		$ranksPolicy[0]->rule = '0';
+		$ranksPolicy[1]->name = 'Adminisztrátorok';
+		if ($ranksPolicy[1]->rankCount < 1) $ranksPolicy[1]->rankCount = 1;
+				
+		$config->ranksPolicy = $ranksPolicy;
+		if ($new) {
+			$db->setQuery('insert into #__beallitasok (id,json)
+			value ('.$db->quote(10 + $temakor_id).','.$db->quote(JSON_encode($config)).')');
+		} else {
+			$db->setQuery('update #__beallitasok
+			set json='.$db->quote(JSON_encode($config)).'
+			where id='.$db->quote(10 + $temakor_id));
+		}
+		$result = $db->query();
+		if (!$result) $this->setError($db->getErrorMsg());
+		return $result;
+	}
+	
+	/**
+	* get temakor dosqusionPolicity
+	* @param integer temakor.id
+	* @return json object
+	*/
+	public function getDisqusionPolicy($id) {
+		$db = JFactory::getDBO();
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+		} else {
+			$json = '{}';
+		} 
+		$config = JSON_decode($json);
+		if (isset($config->disqusionPolicy))
+			$result = $config->disqusionPolicy;
+		else {
+			$result = new stdClass();
+			$result->addProporse = array('Tagok');
+			$result->addEndorse = array('Tagok');
+			$result->addRule = 'debian';
+			$result->add = array('Adminisztrátorok');
+			$result->edit = array('Adminisztrátorok','Létrehozó');
+			$result->voks = Array('Tagok');
+			$result->voksProporse = array('Tagok');
+			$result->voksEndorse = array('Tagok');
+			$result->voksRule = 'debian';
+			$result->voksStart = array('Adminisztrátorok');
+			$result->disqusionTime = 30;
+			$result->voksTime = 30;
+			$result->valid = '50';
+			$result->cancel = array('Adminisztrátorok');
+			$result->archiveRule = 365;
+			$result->remove = array('Adminisztrátorok');
+			$result->comment = array('Látogatók');
+		}
+		// ranks név lista betétele a result -ba
+		$ranks = array();
+		if (isset($config->ranksPolicy)) {
+			foreach ($config->ranksPolicy as $rank) {
+				$ranks[] = $rank->name;
+			}
+		} else {
+			$ranks[] = 'Tagok'; 
+			$ranks[] = 'Adminisztrátorok'; 
+		}
+		$result->ranks = $ranks;
+		return $result;
+	}
+
+	/**
+	* disqusionPolicy tárolása a képernyön lévő adatok alapján
+    */	
+	public function disqusionPolicySave() {
+		$db = JFactory::getDBO();
+		$temakor_id = JRequest::getVar('temakor',0);
+		$addProporse = JRequest::getVar('addProporse',array());
+		$addEndorse = JRequest::getVar('addEndorse',array()); 
+		$addRule = JRequest::getVar('addRule','debian'); 
+		$add = JRequest::getVar('add',array()); 
+		$edit = JRequest::getVar('edit',array());
+		$voks = JRequest::getVar('voks',array()); 
+		$voksProporse = JRequest::getVar('voksProporse',array()); 
+		$voksEndorse = JRequest::getVar('voksEndorse',array()); 
+		$voksRule = JRequest::getVar('voksRule','debian'); 
+		$voksStart = JRequest::getVar('voksStart',array()); 
+		$disqusionTime = JRequest::getVar('disqusionTime',30); 
+		$voksTime = JRequest::getVar('voksTime',30); 
+		$valid = JRequest::getVar('valid','50');
+		$cancel = JRequest::getVar('cancel',array()); 
+		$archiveRule = JRequest::getVar('archiveRule',365); 
+		$remove = JRequest::getVar('remove',array()); 
+		$comment = JRequest::getVar('comment',array()); 
+		
+		$db->setQuery('select * from #__beallitasok where id = (10+'.$temakor_id.')');
+		$res = $db->loadObject();
+		if ($res) {
+			$json = $res->json;
+			$new = false;
+		} else {
+			$json = '{}';
+			$new = true;
+		} 
+		$config = JSON_decode($json);
+
+		$disqusionPolicy = new stdClass();
+		$disqusionPolicy->addProporse = $addProporse;
+		$disqusionPolicy->addEndorse = $addEndorse; 
+		$disqusionPolicy->addRule = $addRule; 
+		$disqusionPolicy->add = $add; 
+		$disqusionPolicy->edit = $edit;
+		$disqusionPolicy->voks = $voks; 
+		$disqusionPolicy->voksProporse = $voksProporse; 
+		$disqusionPolicy->voksEndorse = $voksEndorse; 
+		$disqusionPolicy->voksRule = $voksRule; 
+		$disqusionPolicy->voksStart = $voksStart; 
+		$disqusionPolicy->disqusionTime = $disqusionTime; 
+		$disqusionPolicy->voksTime = $voksTime; 
+		$disqusionPolicy->valid = $valid;
+		$disqusionPolicy->cancel = $cancel; 
+		$disqusionPolicy->archiveRule = $archiveRule; 
+		$disqusionPolicy->remove = $remove; 
+		$disqusionPolicy->comment = $comment; 
+				
+		$config->disqusionPolicy = $disqusionPolicy;
+		if ($new) {
+			$db->setQuery('insert into #__beallitasok (id,json)
+			value ('.$db->quote(10 + $temakor_id).','.$db->quote(JSON_encode($config)).')');
+		} else {
+			$db->setQuery('update #__beallitasok
+			set json='.$db->quote(JSON_encode($config)).'
+			where id='.$db->quote(10 + $temakor_id));
+		}
+		$result = $db->query();
+		if (!$result) $this->setError($db->getErrorMsg());
+		return $result;
+	}
+	
   /**
    * adat olvasás a $source assotiativ tömbből
    * @param array   
@@ -130,7 +632,7 @@ class TemakorokModelTemakorok  extends JModelItem {
    * @param mysql record object   
    * @return boolean     
    */
-   public function store($item) {
+   public function store(&$item) {
      $result = true;
      $user = JFactory::getUser();
      if ($user->id <= 0) {
@@ -144,6 +646,7 @@ class TemakorokModelTemakorok  extends JModelItem {
        $table->bind($item);
        $result = $table->store();
        if ($result) {
+		 $item->id = $table->id;   
          if ($felvitel) {
            // felvitel
            
@@ -191,13 +694,14 @@ class TemakorokModelTemakorok  extends JModelItem {
          } else {
            // módosítás
          
-           // tárolás a beallitasok táblába
+           /* tárolás a beallitasok táblába
            $db->setQuery('delete from #__beallitasok where id=(10+'.$table->id.')');
            $db->query();
            $db->setQuery('insert into #__beallitasok
            values ((10+'.$table->id.'),"'.$item->json.'")');
            $db->query();
-
+			*/
+			
            // usergroup modositása
            $db->setQuery('UPDATE #__usergroups
            SET title="['.$table->id.'] '.$table->megnevezes.'"

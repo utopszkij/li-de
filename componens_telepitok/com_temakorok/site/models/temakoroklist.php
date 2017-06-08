@@ -38,31 +38,33 @@ class TemakorokModelTemakoroklist extends JModelList
 	 * használva felül írja (altémákban lévő szavazásokat is figyelmebe veszi). 
 	 */
 	protected function getListQuery()	{
-    if (JRequest::getVar('filterStr') != '') {
-      $whereStr = 'a.szulo = 0 and a.megnevezes like "%'.JRequest::getVar('filterStr').'%"';
-    } else {
-      $whereStr = 'a.szulo = 0';
-    }
-    if (JRequest::getVar('order') != '') {
-      $order = JRequest::getVar('order');
-    } else {
-      $order = '1';
-      JRequest::setVar('order','1');
-    }
-    
-    
-    $query = 'select a.id,
-                     a.megnevezes, 
-                     sum(sz.vita1 + sz.vita2) vita,
-                     sum(szavazas) szavazas,
-                     sum(lezart) lezart,
-                     a.allapot
-    from #__temakorok a
-    left outer join #__szavazasok sz ON sz.temakor_id = a.id
-    WHERE '.$whereStr.'
-    group by a.id, a.megnevezes  
-    order by '.$order.',1';
-		return $query;
+		if (JRequest::getVar('filterStr') != '') {
+		  $whereStr = 'a.szulo = 0 and a.megnevezes like "%'.JRequest::getVar('filterStr').'%"';
+		} else {
+		  $whereStr = 'a.szulo = 0';
+		}
+		if (JRequest::getVar('order') != '') {
+		  $order = JRequest::getVar('order');
+		} else {
+		  $order = '1';
+		  JRequest::setVar('order','1');
+		}
+		
+		
+		$query = 'select a.id,
+						 a.megnevezes, 
+						 sum(sz.vita1 + sz.vita2) vita,
+						 sum(szavazas) szavazas,
+						 sum(lezart) lezart,
+						 a.allapot,
+						 a.leiras
+		from #__temakorok a
+		left outer join #__szavazasok sz ON sz.temakor_id = a.id
+		WHERE '.$whereStr.'
+		group by a.id, a.megnevezes, a.leiras  
+		order by '.$order.',1';
+		//DBG	echo $query;
+	return $query;
 	}	
   /**
    * egy adott témakörben lévő szavazások darabszámának kiolvasása
@@ -77,7 +79,8 @@ class TemakorokModelTemakoroklist extends JModelList
                      sum(sz.vita1 + sz.vita2) vita,
                      sum(szavazas) szavazas,
                      sum(lezart) lezart,
-                     a.allapot
+                     a.allapot,
+					 a.leiras
      from #__temakorok a
      left outer join #__szavazasok sz ON sz.temakor_id = a.id
      WHERE a.id = "'.$temakor_id.'"

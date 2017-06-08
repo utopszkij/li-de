@@ -22,7 +22,7 @@ echo '
    '.JText::_('SUGO').'
    </a>
 </p>
-<form action="'.$this->Akciok['ok'].'" method="post">
+<form action="'.$this->Akciok['ok'].'" method="post" name="adminForm">
   <input type="hidden" name="limit" value="'.JRequest::getVar('limit').'" />
   <input type="hidden" name="limitstart" value="'.JRequest::getVar('limitstart').'" />
   <input type="hidden" name="order" value="'.JRequest::getVar('order').'" />
@@ -32,8 +32,9 @@ echo '
   <input type="hidden" name="temakor" value="'.$this->Item->id.'" />
  '; 
 ?>
+		<div>
 			<div style="float:left; width:100%">	
-        <?php echo $this->form->getLabel('megnevezes'); ?>
+				<?php echo $this->form->getLabel('megnevezes'); ?>
 				<?php echo $this->form->getInput('megnevezes');  ?>
 				<div class="clr"></div>
 				<?php echo $this->form->getLabel('leiras'); ?>
@@ -41,7 +42,7 @@ echo '
 				<?php echo $this->form->getInput('leiras');  ?>
 				<div class="clr"></div>
 			</div>
-			<div style="float:left; width:100%" class="adminform">	
+			<div style="float:left; width:66%" class="adminform">	
 				<?php
 				if ($this->Item->id > 0) {
 					echo $this->form->getLabel('szulo');
@@ -74,20 +75,49 @@ echo '
 				<div class="clr"></div>
 				<?php echo $this->form->getLabel('lezaro'); ?>
 				<?php  if ($this->form->getValue('lezaro') > 0) {
-                 $wuser = JFactory::getUser($this->form->getValue('lezaro'));  
-                 if (wuser) echo $wuser->name; else echo '---';
-               } else {
-                 echo '---';
-               }     
-        ?>
+                   $wuser = JFactory::getUser($this->form->getValue('lezaro'));  
+                   if (wuser) echo $wuser->name; else echo '---';
+                } else {
+                   echo '---';
+                }     
+				?>
 				<div class="clr"></div>
 				<?php echo $this->form->getLabel('lezarva'); ?>
 				<?php echo $this->form->getValue('lezarva');  ?>
 				<div class="clr"></div>
 				<?php echo $this->form->getLabel('json'); ?>
 				<?php echo $this->form->getInput('json'); ?>
-      </div>
-			<div class="clr"></div>
+		</div>
+		<div style="float:right; width:30%" class="adminForm2">	
+			<p>
+				<button type="button" onclick="basicPolicyClick()">
+					<i class="fa fa-config">&nbsp;</i><?php echo JText::_('COM_TEMAKOROK_BASIC_POLICY'); ?>
+				</button>
+			</p>
+			<p>
+				<button type="button" onclick="memberPolocyClick()">
+					<i class="fa fa-config">&nbsp;</i><?php echo JText::_('COM_TEMAKOROK_MEMBERS_POLICY'); ?>
+				</button>
+			</p>
+			<p>
+				<button type="button" onclick="subthemePolicyClick()">
+					<i class="fa fa-config">&nbsp;</i><?php echo JText::_('COM_TEMAKOROK_SUBTHEME_POLICY'); ?>
+				</button>
+			</p>
+			<p>
+				<button type="button" onclick="ranksPolicyClick()">
+					<i class="fa fa-config">&nbsp;</i><?php echo JText::_('COM_TEMAKOROK_RANKS_POLICY'); ?>
+				</button>
+			</p>
+			<p>
+				<button type="button" onclick="disquisionPolicyClick()">
+					<i class="fa fa-config">&nbsp;</i><?php echo JText::_('COM_TEMAKOROK_DISQUSION_POLICY'); ?>
+				</button>
+			</p>
+			
+		</div>
+	  </div>	
+	  <div class="clr"></div>
       <div class="col <?php if(version_compare(JVERSION,'3.0','lt')):  ?>width-30  <?php endif; ?>span2 fltrgt"></div>
 		  <?php echo JHTML::_( 'form.token' ); ?>
 
@@ -104,6 +134,31 @@ echo '
   }
   function deleteClick() {
     location="'.$this->Akciok['delete'].'";
+  }
+  function basicPolicyClick() {
+	document.forms.adminForm.action = "'.JURI::base().'index.php?option=com_temakorok&view=temakorok&task=basicpolicy";  
+	document.forms.adminForm.submit();
+	return false;
+  }
+  function memberPolocyClick() {
+	document.forms.adminForm.action = "'.JURI::base().'index.php?option=com_temakorok&view=temakorok&task=memberpolicy";  
+	document.forms.adminForm.submit();
+	return false;
+  }
+  function subthemePolicyClick() {
+	document.forms.adminForm.action = "'.JURI::base().'index.php?option=com_temakorok&view=temakorok&task=subthemepolicy";  
+	document.forms.adminForm.submit();
+	return false;
+  }
+  function ranksPolicyClick() {
+	document.forms.adminForm.action = "'.JURI::base().'index.php?option=com_temakorok&view=temakorok&task=rankspolicy";  
+	document.forms.adminForm.submit();
+	return false;
+  }
+  function disquisionPolicyClick() {
+	document.forms.adminForm.action = "'.JURI::base().'index.php?option=com_temakorok&view=temakorok&task=disqusionpolicy";  
+	document.forms.adminForm.submit();
+	return false;
   }
 </script>
 ';

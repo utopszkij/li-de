@@ -12,6 +12,7 @@ CALL :component_copy kepviselojeloltek
 CALL :component_copy kepviselok
 CALL :component_copy cimkek
 CALL :component_copy beallitasok
+CALL :component_copy lide
 GOTO eof
 
 REM component copy subroutine
@@ -23,6 +24,7 @@ xcopy %repo%\componens_telepitok\com_%1\site\models            %www%\components\
 xcopy %repo%\componens_telepitok\com_%1\site\views             %www%\components\com_%1\views  /Y /S /E
 copy %repo%\componens_telepitok\com_%1\site\*.php              %www%\components\com_%1
 copy %repo%\componens_telepitok\com_%1\site\*.xml              %www%\components\com_%1
+copy %repo%\componens_telepitok\com_%1\site\*.html             %www%\components\com_%1
 copy %repo%\componens_telepitok\com_%1\site\language\hu-HU*.*  %www%\language\hu-HU  
 copy %repo%\componens_telepitok\com_%1\site\language\en-GB*.*  %www%\language\en-GB  
 xcopy %repo%\componens_telepitok\com_%1\admin\assets           %www%\administrator\components\com_%1\assests  /Y /S /E
@@ -34,6 +36,7 @@ xcopy %repo%\componens_telepitok\com_%1\admin\sql              %www%\administrat
 xcopy %repo%\componens_telepitok\com_%1\admin\tables           %www%\administrator\components\com_%1\views  /Y /S /E
 copy %repo%\componens_telepitok\com_%1\admin\*.php             %www%\administrator\components\com_%1
 copy %repo%\componens_telepitok\com_%1\admin\*.xml             %www%\administrator\components\com_%1
+copy %repo%\componens_telepitok\com_%1\admin\*.html             %www%\administrator\components\com_%1
 copy %repo%\componens_telepitok\com_%1\admin\language\hu-HU*.* %www%\administrator\language\hu-HU  
 copy %repo%\componens_telepitok\com_%1\admin\language\en-GB*.* %www%\administrator\language\en-GB  
 EXIT /b

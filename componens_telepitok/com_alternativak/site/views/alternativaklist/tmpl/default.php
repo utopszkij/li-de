@@ -27,6 +27,7 @@ function thClass($col) {
   return $result;  
 }
 
+
 /**
 * get avatar img from a user
 * @param  int user_id or Juser user_object
@@ -44,9 +45,8 @@ function getAvatar($user, $w = 80) {
 	if ($params->avatar == '') {
 	   $params->avatar = 'http://gravatar.com/avatar/'.md5(strtolower(trim($user->email))).'?s='.$w.'mmg';
 	}
-	return '<img src="'.$params->avatar.'" width="'.$w.'" />';
+	return '<img src="'.$params->avatar.'" style="width:'.$w.'px; height:auto" />';
 }
-
 
 // Szavazaás kiirása
 //$szuser = JFactory::getUser($this->Szavazas->letrehozo);
@@ -84,17 +84,18 @@ echo '
   <p style="text-align:right">
     <button type="button" onclick="szinfoClose()"><b>X</b></button>
   </p>
-  
-  <div style="float:left; width:60px">
-  '.$avatar.'
-  <br />'.$szuser->name.'
-  </div>
-  
-  '.$this->Szavazas->leiras.'
-  <p><br /><b>Létrehozva/módosítva: </b>'.str_replace('-','.',$this->Szavazas->letrehozva).
+  '.$this->Szavazas->leiras.'<br />
+  <table border="0" width="100%">
+  <tbody>
+  <tr><td style="width:60px; padding:5px;">'.$avatar.'<br />'.$szuser->name.' </td>
+  <td class="stavazasLeirasTd">
+    <b>Létrehozva/módosítva: </b>'.str_replace('-','.',$this->Szavazas->letrehozva).
     '<br /><b>Alternatíva javaslat vita vége: </b>'.str_replace('-','.',$this->Szavazas->vita1_vege).
     '<br /><b>Vita vége: </b>'.str_replace('-','.',$this->Szavazas->vita2_vege).
     '<br /><b>Szavazás vége: </b>'.str_replace('-','.',$this->Szavazas->szavazas_vege).'</p>
+  </td>
+  </tbody>
+  </table>
 </div>
 ';
 if (($this->Szavazas->vita1==1) & ($user->id > 0)) {

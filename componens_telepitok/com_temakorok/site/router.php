@@ -1,7 +1,7 @@
 <?php
   defined('_JEXEC') or die('Restricted access');
 
-  function KepviselokBuildRoute( &$query )
+  function TemakorokBuildRoute( &$query )
   {
     $segments = array();
 
@@ -16,9 +16,9 @@
   	};
 
     return $segments;
-  } // End KepviselokBuildRoute function
+  } // End TemakorokBuildRoute function
   
-  function KepviselokParseRoute( $segments )
+  function TemakorokParseRoute( $segments )
   {
     $vars = array();
     
@@ -33,7 +33,7 @@
         case 'category':
       		$vars['id']   = (int) $segments[1];
 			break;
-        case 'kepviselok':
+        case 'temakorok':
       		$id   = explode(':', $segments[1]);      		
       		$vars['id']= (int) $id[0];        
 			break;
@@ -45,6 +45,6 @@
     } // End count(segments) statement
 
     return $vars;
-  } // End KepviselokParseRoute
+  } // End TemakorokParseRoute
 
 ?>

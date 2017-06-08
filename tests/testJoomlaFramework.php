@@ -349,7 +349,12 @@ class JUser {
 }
 
 class JLanguage {
-	
+	public function getName() {
+		return 'Hungarien (hu-HU)';
+	}
+	public function getTag() {
+		return 'hu-HU';
+	}
 }
 class JTable {
 	protected $tableName;
@@ -514,15 +519,17 @@ class JViewLegacy {
 	public function setLayout($str) {
 		$this->layout = $str;
 	}
-	public function display($tmp) {
+	public function getLayout() {
+		return $this->layout;
+	}
+	public function display($tmp = null) {
 		global $viewName;
-		$tmp = $this->layout.$tmp;
-		if ($tmp == '') $tmp = 'default';
-		
-		if ($this->layout != '')
-		  echo 'testJoomlaFramwork view.display '.$this->layout.'_'.$tmp.'<br>';
-		else	
-		  echo 'testJoomlaFramwork view.display '.$tmp.'<br>';
+		if ($this->layout == '') $this->layout = 'default';
+		if ($tmp == null) 
+			$tmp = $this->layout;
+		else
+			$tmp = $this->layout.'_'.$tmp;
+		echo 'testJoomlaFramwork view.display '.$tmp.'.php<br>';
 		include JPATH_COMPONENT.DS.'views'.DS.$viewName.DS.'tmpl'.DS.$tmp.'.php';
 	}
 	public function setModel($model) {

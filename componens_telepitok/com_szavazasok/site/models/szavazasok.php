@@ -485,7 +485,7 @@ class SzavazasokModelSzavazasok  extends JModelItem {
         }          
      }
      $db->setQuery('UPDATE #__assets
-     SET rules="'.mysql_escape_string($rules).'"
+     SET rules="'.mysqli_escape_string($rules).'"
      WHERE name="com_jdownloads.category.'.$newId.'"');
      $result = $db->query();   
      if ($db->getErrorNum() > 0) $db->stderr();
@@ -603,10 +603,10 @@ class SzavazasokModelSzavazasok  extends JModelItem {
      $category = new KunenaForumCategory($data);
      if ($data['id'] > 0) {
        $db->setQuery('UPDATE #__kunena_categories
-       SET name="'.mysql_escape_string($data['name']).'",
-       description="'.mysql_escape_string($data['description']).'",
+       SET name="'.mysqli_escape_string($data['name']).'",
+       description="'.mysqli_escape_string($data['description']).'",
        pub_access="'.$gr.'",
-       params = "'.mysql_escape_string($params).'"
+       params = "'.mysqli_escape_string($params).'"
        WHERE id="'.$data['id'].'"');
        $db->query();
      } else {

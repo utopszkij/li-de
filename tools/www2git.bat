@@ -28,6 +28,8 @@ copy   %www%\components\com_%1\*.xml                     %repo%\componens_telepi
 copy   %www%\components\com_%1\*.html                    %repo%\componens_telepitok\com_%1\site\*.html             
 copy   %www%\language\hu-HU\hu-HU.com_%1.*               %repo%\componens_telepitok\com_%1\site\language 
 copy   %www%\language\en-GB\en-GB.com_%1.*               %repo%\componens_telepitok\com_%1\site\language 
+copy   %www%\language\hu-HU\hu-HU.com_%1.*.*             %repo%\componens_telepitok\com_%1\site\language 
+copy   %www%\language\en-GB\en-GB.com_%1.*.*             %repo%\componens_telepitok\com_%1\site\language 
 xcopy  %www%\administrator\components\com_%1\assests     %repo%\componens_telepitok\com_%1\admin\assets           /Y /S /E
 xcopy  %www%\administrator\components\com_%1\controllers %repo%\componens_telepitok\com_%1\admin\controllers      /Y /S /E
 xcopy  %www%\administrator\components\com_%1\helpers     %repo%\componens_telepitok\com_%1\admin\helpers          /Y /S /E

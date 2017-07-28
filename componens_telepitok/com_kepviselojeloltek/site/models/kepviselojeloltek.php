@@ -112,12 +112,12 @@ class KepviselojeloltekModelKepviselojeloltek  extends JModelItem {
     if ($item->id <= 0) {  
       // felvitel
       $db->setQuery('insert into #__kepviselojeloltek (user_id, temakor_id, leiras)
-      values ("'.$item->user_id.'","'.$item->temakor_id.'","'.mysql_escape_string($item->leiras).'")
+      values ("'.$item->user_id.'","'.$item->temakor_id.'","'.mysqli_escape_string($item->leiras).'")
       ');
     } else {
       // módosítás
       $db->setQuery('update #__kepviselojeloltek
-      set leiras="'.mysql_escape_string($item->leiras).'"
+      set leiras="'.mysqli_escape_string($item->leiras).'"
       where user_id="'.$item->user_id.'" and temakor_id="'.$item->temakor_id.'"
       ');
     }  
@@ -196,7 +196,7 @@ class KepviselojeloltekModelKepviselojeloltek  extends JModelItem {
      // mindenki
         $rules = '';
      $db->setQuery('UPDATE #__assets
-     SET rules="'.mysql_escape_string($rules).'"
+     SET rules="'.mysqli_escape_string($rules).'"
      WHERE name="com_jdownloads.category.'.$newId.'"');
      $result = $db->query();   
      if ($db->getErrorNum() > 0) $db->stderr();
@@ -282,10 +282,10 @@ class KepviselojeloltekModelKepviselojeloltek  extends JModelItem {
      $category = new KunenaForumCategory($data);
      if ($data['id'] > 0) {
        $db->setQuery('UPDATE #__kunena_categories
-       SET name="'.mysql_escape_string($data['name']).'",
-       description="'.mysql_escape_string($data['description']).'",
+       SET name="'.mysqli_escape_string($data['name']).'",
+       description="'.mysqli_escape_string($data['description']).'",
        pub_access="'.$gr.'",
-       params = "'.mysql_escape_string($params).'"
+       params = "'.mysqli_escape_string($params).'"
        WHERE id="'.$data['id'].'"');
        $db->query();
      } else {

@@ -30,6 +30,19 @@ Ha létezik 'lngCode'.'tmplName'.php akkor ezt használja, egyébként a 'tmplNa
 
 Keresés elöször a 'template_path'/html/com_lide/'viewname' könyvtárban, másodszor a 'component_path'/views/'viewname'/tmpl könyvtárban
 
+### language fileok
+languages/'lng'='lng'.com_lide.'viewName'.ini
+
+### css használattal kapcsolatos infok
+
+.mobile  csak mobil telefonon megjelenitendő
+.desctop csak desctopon megjelenitendő
+.tablet  csak tableten megjelenítendő
+.tablet_desctop tabletten és desctopon megjelenítendő
+
+id="div'ViewName'" division-ban van a nézet képernyője
+
+
 ### php unittests:
 
 cd repo_path

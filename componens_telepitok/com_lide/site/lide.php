@@ -54,6 +54,10 @@ if (count($w) == 2) {
   $viewName = 'groups';
 } 
 
+// language file betöltése
+$lang = JFactory::getLanguage();
+$lang->load('com_lide.'.$viewName, JPATH_SITE, $lang->getTag(), true);
+
 // végrehajtás
 $componentName = 'lideController'.ucFirst($viewName);
 if (file_exists(JPATH_COMPONENT.'/controllers/'.$viewName.'.php')) { 
